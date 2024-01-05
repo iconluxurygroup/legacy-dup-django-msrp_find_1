@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Task</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212; /* Change the background color to dark */
+            color: #f8f9fa; /* Change the text color to light */
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #962a17 ;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .btn-primary {
+            background-color: #BB86FC;
+            border-color: #BB86FC;
+        }
+        .progress-bar {
+            background-color: #BB86FC;
+        }
+        .keyword-input {
+            display: none;  /* Initial state is hidden */
+        }
+        .hidden {
+            display: none;
+        }
+</style>
+    
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">MSRP Tool</h1>
+        <form enctype="multipart/form-data" method="POST" action="">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="file_upload" class="form-label">Upload File</label>
+                <span class="bi bi-info-circle-fill" data-bs-toggle="tooltip" title="Upload your Excel file (.xls, .xlsx format only)"></span>
+                <!-- ... rest of form ... -->
+                <input class="form-control" type="file" id="file_upload" name="file_upload" accept=".xls,.xlsx" required>
+            </div>
+            <div class="mb-3">
+                <label for="column" class="form-label">Search Column</label>
+                <span class="bi bi-info-circle-fill" data-bs-toggle="tooltip" title="Enter the column name you want to search"></span>
+                <input class="form-control" type="text" id="column" name="column" placeholder="Enter column name (e.g. B)" required>
+            </div>
+            <div class="mb-3">
+                <label for="keywordColumn" class="form-label">Brand Column</label>
+                <span class="bi bi-info-circle-fill" data-bs-toggle="tooltip" title="Enter the column name where keywords are located, brand column suggested"></span>
+                <!-- ... rest of form ... -->
+                <input class="form-control" type="text" id="keywordColumn" name="keywordColumn" placeholder="Enter brand Column (e.g. C)" required>
+            </div>
+            <div class="mb-3">
+                <label for="msrpColumn" class="form-label">MSRP Column</label>
+                <span class="bi bi-info-circle-fill" data-bs-toggle="tooltip" title="Enter the column name where keywords are located, brand column suggested"></span>
+                <!-- ... rest of form ... -->
+                <input class="form-control" type="text" id="msrpColumn" name="msrpColumn" placeholder="Enter msrp Column (e.g. C)" required>
+            </div>  
+            <div class="mb-3">
+                <label for="startRow" class="form-label">Start Row</label>
+                <span class="bi bi-info-circle-fill" data-bs-toggle="tooltip" title="Enter the column name where keywords are located, brand column suggested"></span>
+                <!-- ... rest of form ... -->
+                <input class="form-control" type="text" id="startRow" name="startRow" placeholder="Enter starting row (e.g. C)" required>
+            </div>
+    
+            <div class="progress mb-3 hidden" id="progress-container">
+                <div class="progress-bar" id="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="mb-3 hidden" id="status-container">
+                <p>Current step: <span id="current-step"></span></p>
+                <p>Current iteration: <span id="current-iteration"></span> out of <span id="total-iterations"></span></p>
+                <p>Estimated time to complete: <span id="estimated-wait-time"></span></p>
+            </div>
+            <span class="hidden" id="wait-message">Please wait...File will download once complete.</span>
+            <button class="btn btn-primary" type="submit" id="start-scraping" onclick="showWaitMessage()">Start</button>
+        </form>
+    </div>
+    <script>
+        // This function will be called when the button is clicked
+        function showWaitMessage() {
+            // Hide the button
+            $('#start-scraping').hide();
+
+            // Show the "Please wait..." message
+            $('#wait-message').removeClass('hidden').show();
+        }
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</body>
+</html>
